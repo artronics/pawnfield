@@ -1,25 +1,35 @@
-// @flow
 import React, { PureComponent } from 'react';
-import logo from './logo.svg';
+import {Switch, Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import './App.css';
+import Button from 'material-ui/Button';
+import HomePage from './containers/Homepage';
+import Login from './containers/Login';
+import Pawnfield from './containers/Pawnfield';
+import NotFoundPage from './containers/NotFoundPage';
 
-type Props = {
-
-};
-class App extends PureComponent<Props> {
+const AppRoute = () => (
+  <Switch>
+    <Route exact path="/" component={HomePage}/>
+    <Route exact path="/login" component={Login}/>
+    <Route path="/app" component={Pawnfield}/>
+    <Route component={NotFoundPage}/>
+  </Switch>
+);
+class App extends PureComponent {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <AppRoute />
       </div>
     );
   }
 }
 
+App.propTypes = {
+}
+
+export {
+  AppRoute,
+};
 export default App;
