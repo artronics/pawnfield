@@ -1,11 +1,13 @@
 // @flow
 import React, { PureComponent } from 'react';
+import { Provider } from 'react-redux';
 import logo from './logo.svg';
 import './App.css';
 
 type Props = {
+
 };
-class App extends React.PureComponent<Props> {
+class App extends PureComponent<Props> {
   render() {
     return (
       <div className="App">
