@@ -2,14 +2,14 @@ import React, { PureComponent } from 'react';
 import {Switch, Route } from 'react-router-dom';
 import './App.css';
 import HomePage from 'containers/Homepage';
-import Login from 'containers/Login';
+import LoginPage from 'containers/Login/LoginPage';
 import Pawnfield from 'containers/Pawnfield';
 import NotFoundPage from 'containers/NotFoundPage';
 
 const AppRoute = () => (
   <Switch>
     <Route exact path="/" component={HomePage}/>
-    <Route exact path="/login" component={Login}/>
+    <Route exact path="/login" component={LoginPage}/>
     <Route path="/app" component={Pawnfield}/>
     <Route component={NotFoundPage}/>
   </Switch>

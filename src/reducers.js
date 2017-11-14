@@ -3,6 +3,7 @@ import { reducer as formReducer } from 'redux-form/immutable';
 import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { reducer as appReducer } from 'containers/Pawnfield/state';
+import { reducer as loginReducer } from 'containers/Login/state';
 
 // Initial routing state
 const routeInitialState = fromJS({
@@ -32,6 +33,7 @@ export default function createReducer(injectedReducers) {
     route: routeReducer,
     form: formReducer,
     app: appReducer,
+    login: loginReducer,
     ...injectedReducers,
   });
 }
