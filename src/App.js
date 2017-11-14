@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react';
 import {Switch, Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import './App.css';
-import Button from 'material-ui/Button';
-import HomePage from './containers/Homepage';
-import Login from './containers/Login';
-import Pawnfield from './containers/Pawnfield';
-import NotFoundPage from './containers/NotFoundPage';
+import HomePage from 'containers/Homepage';
+import Login from 'containers/Login';
+import Pawnfield from 'containers/Pawnfield';
+import NotFoundPage from 'containers/NotFoundPage';
 
 const AppRoute = () => (
   <Switch>

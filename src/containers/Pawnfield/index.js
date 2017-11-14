@@ -1,8 +1,12 @@
 import React from 'react';
+import Layout from 'containers/Layout';
 
 const Pawnfield = () => {
   return (
-    <div>pawnfield</div>
+    <div>
+      pawnfield
+      <Layout/>
+    </div>
   );
 }
 

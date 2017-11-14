@@ -2,6 +2,7 @@ import { combineReducers } from 'redux-immutable';
 import { reducer as formReducer } from 'redux-form/immutable';
 import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
+import { reducer as appReducer } from 'containers/Pawnfield/state';
 
 // Initial routing state
 const routeInitialState = fromJS({
@@ -30,6 +31,7 @@ export default function createReducer(injectedReducers) {
   return combineReducers({
     route: routeReducer,
     form: formReducer,
+    app: appReducer,
     ...injectedReducers,
   });
 }
