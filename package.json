@@ -19,7 +19,8 @@
     "redux-immutable": "^4.0.0",
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1",
-    "styled-components": "^2.2.3"
+    "styled-components": "^2.2.3",
+    "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,6 +31,8 @@
   "devDependencies": {
     "enzyme": "^3.1.1",
     "enzyme-adapter-react-15": "^1.0.5",
-    "enzyme-adapter-react-16": "^1.0.4"
+    "enzyme-adapter-react-16": "^1.0.4",
+    "redux-saga-test-plan": "^3.3.0",
+    "sinon": "^4.1.2"
   }
 }

@@ -1,4 +1,6 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Paper from 'components/Paper';
 import Login from './index';
@@ -10,10 +12,10 @@ const Root = styled(Paper)`
   height: 90vh;
 `;
 
-const LoginPage = () => (
+export const LoginPage = () => (
   <Root>
     <Login />
   </Root>
 );
 
-export default LoginPage;
+export default withRouter(connect()(LoginPage));

@@ -1,8 +1,11 @@
 import { fromJS } from 'immutable';
 import {
+  ACCOUNT_SUCCESSFUL,
+  accountSuccessful,
   reducer,
   selectApp,
-  makeSelectToken
+  makeSelectToken,
+  selectLoggedIn,
 } from '../state';
 // import { selectGlobal, selectToken, } from '../selectors';
 
@@ -15,9 +18,24 @@ describe('state', () => {
       },
     });
   });
+  describe('actions', () => {
+    it('should return corrent type on ACCOUNT_SUCCESSFUL', () => {
+      const account = {
+        account: {token: 'foo'}
+      };
+      const act = accountSuccessful(account);
+      expect(act).toEqual({type: ACCOUNT_SUCCESSFUL, account});
+    });
+  });
   describe('reducer', () => {
     it('should return initialState', () => {
       expect(reducer(undefined, {})).toEqual(state);
+    });
+    it('should change state to add account on ACCOUNT_SUCCESSFUL', () => {
+      const acc = {token: 'footoken'};
+      expect(reducer(undefined, accountSuccessful(acc))).toEqual(
+        state.set('account', acc)
+      );
     });
   });
   describe('selectors', () => {
@@ -32,24 +50,11 @@ describe('state', () => {
     it('should select token', () => {
       expect(makeSelectToken(appState)).toEqual('some token');
     });
-  });
-  /*
-  describe('selectors', () => {
-    it('should select global', () => {
-      const globalState = fromJS({});
-      const mockedState = fromJS({
-        global: globalState,
-      });
-      expect(selectGlobal(mockedState)).toEqual(globalState);
-    });
-    it('should selectToken', () => {
-      const mockedState = fromJS({
-        global: {
-          account: {token: 'foo'},
-        },
-      });
-      expect(selectToken()(mockedState)).toEqual('foo');
+    it('should select loggedIn', () => {
+      const state = fromJS({
+        app: {account: {token: ''}}
+      })
+      expect(selectLoggedIn(state)).toEqual(false);
     });
   });
-  */
 });

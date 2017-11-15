@@ -1,22 +1,28 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Login, mapDispatchToProps } from '../index';
+import { fromJS } from 'immutable';
+import { Login, mapStateToProps, mapDispatchToProps } from '../index';
 import LoginForm from '../LoginForm';
 import { login } from '../state';
 
 describe('<Login />', () => {
   const onLoginSpy = jest.fn();
+  const form = shallow(<Login onLogin={onLoginSpy} loginError={false} other='foo' />).find(LoginForm);
+
   it('should render LoginForm', () => {
-    const form = shallow(<Login onLogin={onLoginSpy} />).find(LoginForm);
     expect(form.length).toEqual(1);
   });
   it('should pass onLogin to LoginForm', () => {
-    const form = shallow(<Login onLogin={onLoginSpy} />).find(LoginForm);
     expect(form.props().onSubmit).toEqual(onLoginSpy);
   });
   it('should pass along props to LoginForm', () => {
-    const form = shallow(<Login onLogin={onLoginSpy} other='foo' />).find(LoginForm);
     expect(form.props().other).toEqual('foo');
+  });
+  describe('mapStateToProps', () => {
+    it('should return loginError', () => {
+      const props = mapStateToProps(fromJS({login: {loginError: false}}));
+      expect(props.loginError).toEqual(false);
+    });
   });
 
   describe('mapDispatchToProps', () => {

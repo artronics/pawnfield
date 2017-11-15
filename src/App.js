@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import {Switch, Route } from 'react-router-dom';
+import {Switch, Route, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import './App.css';
 import HomePage from 'containers/Homepage';
 import LoginPage from 'containers/Login/LoginPage';
@@ -30,4 +31,4 @@ App.propTypes = {
 export {
   AppRoute,
 };
-export default App;
+export default withRouter(connect()(App));
