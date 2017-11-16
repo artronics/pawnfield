@@ -6,7 +6,7 @@ const theme = {
   ...mui,
   flatBackGround: mui.palette.common.faintBlack,
   navWidth: '20%',
-  navItemHeight: '60px',
+  navItemHeight: '64px',
   itemHoverBackGround: mui.palette.common.minBlack,
   receiptWidth: '35%',
 }

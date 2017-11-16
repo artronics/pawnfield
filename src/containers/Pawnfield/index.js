@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import Typography from 'material-ui/Typography';
-import Layout, {Nav, NavItem, Main, TabSection, Receipt} from 'containers/Layout';
+import Layout, {Nav, NavItem, Main, Receipt} from 'containers/Layout';
+import Tab from 'containers/Tab';
 
 const renderNavItem = (to, text, icon) => (
   <NavLink to={to}>
@@ -14,18 +16,17 @@ const navItems = [
   renderNavItem('/items', 'Items', 'laptop'),
 ]
 
-const Pawnfield = () => {
+export const Pawnfield = () => {
   return (
     <div>
       <Layout>
+        <Main>
+          <Tab></Tab>
+        </Main>
+        <Receipt>receipt</Receipt>
         <Nav>
           {navItems.map((item, i) => <NavItem key={i}>{item}</NavItem>)}
         </Nav>
-        <Main>
-          <TabSection>foo  bar</TabSection>
-          main
-        </Main>
-        <Receipt>receipt</Receipt>
       </Layout>
     </div>
   );
@@ -33,4 +34,4 @@ const Pawnfield = () => {
 
 
 
-export default Pawnfield;
+export default connect()(Pawnfield);

@@ -9,7 +9,7 @@ const Root = styled(Paper)`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 90vh;
+  height: 100vh;
 `;
 
 export const LoginPage = () => (

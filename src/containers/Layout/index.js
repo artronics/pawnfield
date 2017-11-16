@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Appbar from './Appbar';
 
@@ -13,7 +14,11 @@ const Container = styled.div`
   height: 100%;
   background-color: ${props => props.theme.flatBackGround};
 `;
+const AppbarWrapper = styled(Appbar)`
+  order: 0;
+`;
 const NavWrapper = styled.nav`
+  order: 0;
   width: ${props => props.theme.navWidth};
   > ul {
     list-style: none;
@@ -30,25 +35,33 @@ const NavWrapper = styled.nav`
       > a {
         display: flex;
         color:inherit;
+        align-items: center;
+        width: 100%;
         text-decoration: none;
+        height: ${props => props.theme.navItemHeight};
         $:visited {
           color: inherit;
         }
         > i {
-          margin-right: 1em;
+          margin-right: 1.5em;
         }
       }
     }
   }
 `;
 const MainWrapper = styled.div`
+  order: 1;
   width: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 const ReceiptWrapper = styled.div`
+  order: 2;
   width: ${props => props.theme.receiptWidth};
 `;
 const TabSectionWrapper = styled.nav`
-  height: ${props => props.theme.navItemHeight}
+  height: ${props => props.theme.navItemHeight};
+  min-height:  ${props => props.theme.navItemHeight};
 `;
 export const Nav = ({children}) => {
   return (
@@ -80,7 +93,7 @@ export const Receipt = ({children}) => {
 
 const Layout = ({children}) => (
   <Root>
-    <Appbar />
+    <AppbarWrapper />
     <Container>
       {children}
     </Container>
