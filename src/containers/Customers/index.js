@@ -25,16 +25,22 @@ const New = () => {
   );
 }
 
-export const Customers = () => (
-  <Switch>
-    <Route exact path='/app/customers' component={Home} />
-    <Route path='/app/customers/new' component={New} />
-  </Switch>
-);
+export class Customers extends React.PureComponent {
+  add = () => this.props.addTabItem('customers', {kir: {label: 'kir', to: '/app/customers/kir'}});
+  
+  render() {
+    return (
+      <Switch>
+        <Route exact path='/app/customers' component={Home} />
+        <Route path='/app/customers/new' component={New} />
+      </Switch>
+    );
+  }
+}
 
-const tabs = [
-  {id: 'home', to: '/app/customers', label: 'Customers'},
-  {id: 'new', to: '/app/customers/new', label: 'New Customer'}
-];
+const tabs = {
+  home: {to: '/app/customers', label: 'Customers'},
+  new: {to: '/app/customers/new', label: 'New Customer'}
+};
 
-export default withTabs({tabs})(Customers);
+export default withTabs('customers', tabs)(Customers);
