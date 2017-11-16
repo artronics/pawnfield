@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Switch, Route } from 'react-router-dom';
 import Typography from 'material-ui/Typography';
 import Layout, {Nav, NavItem, Main, Receipt} from 'containers/Layout';
-import Tab from 'containers/Tab';
+import Customers from 'containers/Customers';
 
 const renderNavItem = (to, text, icon) => (
   <NavLink to={to}>
@@ -21,7 +21,9 @@ export const Pawnfield = () => {
     <div>
       <Layout>
         <Main>
-          <Tab></Tab>
+          <Switch>
+            <Route path='/app/customers' component={Customers} />
+          </Switch>
         </Main>
         <Receipt>receipt</Receipt>
         <Nav>

@@ -8,7 +8,6 @@ import Typography from 'material-ui/Typography';
 import AppBar from 'material-ui/AppBar';
 import {default as MdTabs, Tab as MdTab } from 'material-ui/Tabs';
 import { TabSection } from 'containers/Layout';
-import ipsum from 'lorem-ipsum';
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,29 +29,31 @@ const Main = styled(Paper)`
   flex-direction: column;
 `;
 
-const Tabs = () => {
+const Tabbar = withRouter(({history, tabs}) => {
   return (
-    <TabbarWrapper value={0}>
-      <MdTab label='Customers'></MdTab>
-      <MdTab label='New Customers'></MdTab>
-    </TabbarWrapper>
-  );
-}
+        <TabbarWrapper value={'home'}>
+          {tabs.map(t => (
+            <MdTab key={t.id} value={t.id} label={t.label} onClick={() => history.push(t.to)} />
+          ))}
+        </TabbarWrapper>
+      );
+});
 
-export const Tab = () => (
-  <Wrapper>
-    <AppBar position='static'>
-      {Tabs()}
-    </AppBar>
-    <Main elevation={1}>
-      <Toolbar><Typography type='title'>Customers</Typography></Toolbar>
-      <Scroll>
-        <Typography>
-          {ipsum({count: 50, units: 'paragraphs'})}
-        </Typography>
-      </Scroll>
-    </Main>
-  </Wrapper>
-);
-
-export default connect()(Tab);
+export const withTabs = ({tabs}) => (Component) => {
+  return class Tab extends React.PureComponent {
+    render() {
+      return (
+        <Wrapper>
+          <AppBar position='static'>
+            <Tabbar tabs={tabs}/>
+          </AppBar>
+          <Main elevation={1}>
+            <Scroll>
+              <Component />
+            </Scroll>
+          </Main>
+        </Wrapper>
+      );
+    }
+  }
+};
