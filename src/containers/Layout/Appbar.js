@@ -7,7 +7,7 @@ import Typography from 'material-ui/Typography';
 const Title = () => (
   <Typography type='title' color='inherit'>
     Pawnfield
-  </ Typography>
+  </Typography>
 );
 
 const TitleWrapper = styled(Title)`
@@ -16,12 +16,12 @@ const TitleWrapper = styled(Title)`
 
 const Appbar = () => (
   <div>
-    <MdAppbar position='static'>
+    <MdAppbar  color='default' elevation={1} position='static'>
       <Toolbar>
         <TitleWrapper />
-      </ Toolbar>
-    </ MdAppbar>
-  </ div>
+      </Toolbar>
+    </MdAppbar>
+  </div>
 );
 
 export {

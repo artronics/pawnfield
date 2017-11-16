@@ -5,7 +5,7 @@ import LoginForm from './LoginForm';
 import { login, selectLoginError } from './state';
 
 export const Login = (props) => {
-  const {onLogin, loginError} = props;
+  const {onLogin} = props;
   return (
     <div>
       <LoginForm onSubmit={onLogin}  {...props} />
