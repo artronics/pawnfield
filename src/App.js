@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import {Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './App.css';
 import HomePage from 'containers/Homepage';
@@ -15,18 +15,18 @@ const AppRoute = () => (
     <Route component={NotFoundPage}/>
   </Switch>
 );
+
 class App extends PureComponent {
-  render() {
+  render () {
     return (
       <div className="App">
-        <AppRoute />
+        <AppRoute/>
       </div>
     );
   }
 }
 
-App.propTypes = {
-}
+App.propTypes = {};
 
 export {
   AppRoute,

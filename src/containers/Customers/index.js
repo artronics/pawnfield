@@ -5,7 +5,7 @@ import ipsum from 'lorem-ipsum';
 import { withTabs } from 'containers/Tab';
 
 const Home = (props) => {
-  return(
+  return (
     <div>
       home
       <Typography>
@@ -13,9 +13,9 @@ const Home = (props) => {
       </Typography>
     </div>
   );
-}
+};
 const New = () => {
-  return(
+  return (
     <div>
       new customer
       <Typography>
@@ -23,14 +23,14 @@ const New = () => {
       </Typography>
     </div>
   );
-}
+};
 
 export class Customers extends React.Component {
-  render() {
+  render () {
     return (
       <Switch>
         <Route exact path='/app/customers' component={Home} state={{kir: 'kos'}}/>
-        <Route path='/app/customers/new' component={New} />
+        <Route path='/app/customers/new' component={New}/>
       </Switch>
     );
   }

@@ -27,8 +27,9 @@ export function changeActiveTab(tabGroupName, name) {
     tab: {tabGroupName, name},
   };
 }
+
 const initialState = fromJS(
-  {}
+    {},
 );
 
 // reducer
@@ -36,13 +37,13 @@ export function reducer(state = initialState, action) {
   switch (action.type) {
     case ADD_TABS_GROUP: {
       if (state.has(action.tab.tabGroupName)) {
-        return state
+        return state;
       }
       const {tabGroupName, tabItems} = action.tab;
       const firstKey = tabItems.keySeq().first();
       return state
-        .set(tabGroupName, tabItems)
-        .setIn([tabGroupName, 'active'], firstKey);
+          .set(tabGroupName, tabItems)
+          .setIn([tabGroupName, 'active'], firstKey);
     }
     case ADD_TAB_ITEM: {
       const {tabGroupName, tabItem} = action.tab;
@@ -50,7 +51,7 @@ export function reducer(state = initialState, action) {
       if (state.hasIn([tabGroupName, key])) {
         return state;
       }
-      return state.mergeIn([tabGroupName],tabItem);
+      return state.mergeIn([tabGroupName], tabItem);
     }
     case CHANGE_ACTIVE_TAB: {
       const {tabGroupName, name} = action.tab;
@@ -68,17 +69,21 @@ export function reducer(state = initialState, action) {
 const toArray = tabs => {
   const keys = Object.keys(tabs);
   const arr = [];
-  keys.forEach((k) => arr.push({to: tabs[k].to, label: tabs[k].label, key: k}))
+  keys.forEach(k => {
+    if (k !== 'active') {
+      arr.push({to: tabs[k].to, label: tabs[k].label, key: k});
+    }
+  });
   return arr;
-}
+};
 
-const selectTabs = state => state.get('tabs').toJS();
+export const selectTabs = state => state.get('tabs').toJS();
 export const makeSelectTabs = tabGroupName => createSelector(
-  selectTabs,
-  (tab) => toArray(tab[tabGroupName] || {}),
+    selectTabs,
+    (tab) => toArray(tab[tabGroupName] || {}),
 );
 
 export const selectActiveTab = tabGroupName => createSelector(
-  selectTabs,
-  (tab) => tab[tabGroupName] ? tab[tabGroupName].active : 0
+    selectTabs,
+    (tab) => tab[tabGroupName] ? tab[tabGroupName].active : 0,
 );
