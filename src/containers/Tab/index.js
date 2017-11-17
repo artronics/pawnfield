@@ -6,7 +6,13 @@ import { withRouter } from 'react-router-dom';
 import Paper from 'components/Paper';
 import AppBar from 'material-ui/AppBar';
 import {default as MdTabs, Tab as MdTab } from 'material-ui/Tabs';
-import { addTabsGroup, addTabItem, makeSelectTabs } from './state';
+import {
+  addTabsGroup,
+  addTabItem,
+  makeSelectTabs,
+  selectActiveTab,
+  changeActiveTab,
+} from './state';
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,16 +34,20 @@ const Main = styled(Paper)`
   flex-direction: column;
 `;
 
-const Tabbar = withRouter(({history, tabs}) => {
+const Tabbar = withRouter((props) => {
+  const {history, tabs, changeActiveTab, activeTab} = props;
   return (
-        <TabbarWrapper value={'home'}>
-          {tabs.map((t, key)=> {
+        <TabbarWrapper value={activeTab}>
+          {tabs.map(t => {
             return (
               <MdTab
                 key={t.key}
                 value={t.key}
                 label={t.label}
-                onClick={() => history.push(t.to)}
+                onClick={() => {
+                  changeActiveTab(t.key);
+                  history.push(t.to);
+                }}
               />
             );}
           )}
@@ -51,11 +61,15 @@ export const withTabs = (tabGroupName, tabItems) => (Component) => {
       this.props.addTabsGroup(tabGroupName, tabItems);
     }
     render() {
-      const {addTabItem} = this.props;
+      const {addTabItem, changeActiveTab, activeTab} = this.props;
       return (
         <Wrapper>
           <AppBar position='static'>
-            <Tabbar tabs={this.props.tabs}/>
+            <Tabbar
+              tabs={this.props.tabs}
+              changeActiveTab={changeActiveTab(tabGroupName)}
+              activeTab={activeTab}
+            />
           </AppBar>
           <Main elevation={1}>
             <Scroll>
@@ -68,7 +82,8 @@ export const withTabs = (tabGroupName, tabItems) => (Component) => {
   }
   function mapStateToProps(state) {
     return {
-      tabs: makeSelectTabs(tabGroupName)(state)
+      tabs: makeSelectTabs(tabGroupName)(state),
+      activeTab: selectActiveTab(tabGroupName)(state)
     }
   }
   function mapDispatchToProps(dispatch) {
@@ -76,6 +91,7 @@ export const withTabs = (tabGroupName, tabItems) => (Component) => {
       dispatch,
       addTabsGroup: (tabGroupName, tabItems) => dispatch(addTabsGroup(tabGroupName, fromJS(tabItems))),
       addTabItem: (tabGroupName, tabItem) => dispatch(addTabItem(tabGroupName, fromJS(tabItem))),
+      changeActiveTab: tabGroupName => name => dispatch(changeActiveTab(tabGroupName, name)),
     }
   }
   return connect(mapStateToProps, mapDispatchToProps)(Tab);

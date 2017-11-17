@@ -4,6 +4,7 @@ import { NavLink, Switch, Route } from 'react-router-dom';
 import Typography from 'material-ui/Typography';
 import Layout, {Nav, NavItem, Main, Receipt} from 'containers/Layout';
 import Customers from 'containers/Customers';
+import Items from 'containers/Items';
 
 const renderNavItem = (to, text, icon) => (
   <NavLink to={to}>
@@ -12,8 +13,8 @@ const renderNavItem = (to, text, icon) => (
 );
 
 const navItems = [
-  renderNavItem('/customrs', 'Customers', 'user'),
-  renderNavItem('/items', 'Items', 'laptop'),
+  renderNavItem('/app/customers', 'Customers', 'user'),
+  renderNavItem('/app/items', 'Items', 'laptop'),
 ]
 
 export const Pawnfield = () => {
@@ -23,6 +24,7 @@ export const Pawnfield = () => {
         <Main>
           <Switch>
             <Route path='/app/customers' component={Customers} />
+            <Route path='/app/items' component={Items} />
           </Switch>
         </Main>
         <Receipt>receipt</Receipt>

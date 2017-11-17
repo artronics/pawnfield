@@ -25,9 +25,8 @@ const New = () => {
   );
 }
 
-export class Customers extends React.PureComponent {
-  add = () => this.props.addTabItem('customers', {kir: {label: 'kir', to: '/app/customers/kir'}});
-  
+export class Customers extends React.Component {
+
   render() {
     return (
       <Switch>

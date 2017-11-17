@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 // constants
 export const ADD_TABS_GROUP = 'pawnfield/Tab/ADD_TABS_GROUP';
 export const ADD_TAB_ITEM = 'pawnfield/Tab/ADD_TAB_ITEM';
+export const CHANGE_ACTIVE_TAB = 'pawnfield/Tab/CHANGE_ACTIVE_TAB';
 
 // actions
 export function addTabsGroup(tabGroupName, tabItems) {
@@ -19,6 +20,13 @@ export function addTabItem(tabGroupName, tabItem) {
     tab: {tabGroupName, tabItem},
   };
 }
+
+export function changeActiveTab(tabGroupName, name) {
+  return {
+    type: CHANGE_ACTIVE_TAB,
+    tab: {tabGroupName, name},
+  };
+}
 const initialState = fromJS(
   {}
 );
@@ -26,20 +34,31 @@ const initialState = fromJS(
 // reducer
 export function reducer(state = initialState, action) {
   switch (action.type) {
-    case ADD_TABS_GROUP:
+    case ADD_TABS_GROUP: {
       if (state.has(action.tab.tabGroupName)) {
         return state
       }
-      return state.set(action.tab.tabGroupName, action.tab.tabItems)
-
-    case ADD_TAB_ITEM:
+      const {tabGroupName, tabItems} = action.tab;
+      const firstKey = tabItems.keySeq().first();
+      return state
+        .set(tabGroupName, tabItems)
+        .setIn([tabGroupName, 'active'], firstKey);
+    }
+    case ADD_TAB_ITEM: {
       const {tabGroupName, tabItem} = action.tab;
       const key = tabItem.keySeq().first();
       if (state.hasIn([tabGroupName, key])) {
         return state;
       }
       return state.mergeIn([tabGroupName],tabItem);
-
+    }
+    case CHANGE_ACTIVE_TAB: {
+      const {tabGroupName, name} = action.tab;
+      if (!state.hasIn([tabGroupName, name])) {
+        return state;
+      }
+      return state.setIn([tabGroupName, 'active'], name);
+    }
     default:
       return state;
   }
@@ -57,4 +76,9 @@ const selectTabs = state => state.get('tabs').toJS();
 export const makeSelectTabs = tabGroupName => createSelector(
   selectTabs,
   (tab) => toArray(tab[tabGroupName] || {}),
+);
+
+export const selectActiveTab = tabGroupName => createSelector(
+  selectTabs,
+  (tab) => tab[tabGroupName] ? tab[tabGroupName].active : 0
 );
