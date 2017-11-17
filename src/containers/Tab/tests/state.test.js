@@ -1,9 +1,15 @@
 import { fromJS } from 'immutable';
 import {
-  ADD_TAB_ITEM, ADD_TABS_GROUP, CHANGE_ACTIVE_TAB,
-  addTabItem, addTabsGroup, changeActiveTab,
-  makeSelectTabs, selectActiveTab, selectTabs,
+  ADD_TAB_ITEM,
+  ADD_TABS_GROUP,
+  addTabItem,
+  addTabsGroup,
+  CHANGE_ACTIVE_TAB,
+  changeActiveTab,
+  makeSelectTabs,
   reducer,
+  selectActiveTab,
+  selectTabs,
 } from '../state';
 
 describe('state', () => {
@@ -14,12 +20,44 @@ describe('state', () => {
       'bar': {to: '/foo/bar', label: 'BAR'},
     },
   };
+  const tabsIm = fromJS(tabs);
   const global = fromJS({
     tabs,
   });
   describe('reducer', () => {
     it('should return initialState', () => {
       expect(reducer(undefined, {})).toEqual(fromJS({}));
+    });
+    it('should return ADD_TABS_GROUP ', () => {
+      const group = {'/': {to: '/baz', label: 'BAZ'}};
+      const act = addTabsGroup('baz', group);
+      const exp = tabsIm.set('baz', fromJS(group))
+          .setIn(['baz', 'active'], '/');
+      expect(reducer(tabsIm, act)).toEqual(exp);
+    });
+    it('should not change the state if key is already there', () => {
+      const act = addTabsGroup('foo', {});
+      expect(reducer(tabsIm, act)).toEqual(tabsIm);
+    });
+    it('should merge new tabItem on addTabItem', () => {
+      const item = {baz: {to: '/foo/baz', label: 'BAZ'}};
+      const act = addTabItem('foo', item);
+      const exp = tabsIm.mergeIn(['foo'], fromJS(item));
+      expect(reducer(tabsIm, act)).toEqual(exp);
+    });
+    it('should not change the state if key is already there', () => {
+      const act = addTabItem('foo', {bar: {to: 'some-new-path'}});
+      expect(reducer(tabsIm, act)).toEqual(tabsIm);
+    });
+    it('should changeActiveTab', () => {
+      const name = 'bar';
+      const act = changeActiveTab('foo', name);
+      const exp = tabsIm.setIn(['foo', 'active'], name);
+      expect(reducer(tabsIm, act)).toEqual(exp);
+    });
+    it('should not change state if activeTab name does not exist', () => {
+      const act = changeActiveTab('foo', 'non-existence');
+      expect(reducer(tabsIm, act)).toEqual(tabsIm);
     });
   });
   describe('selectors', () => {
@@ -45,7 +83,7 @@ describe('state', () => {
           .toEqual(
               {
                 type: ADD_TABS_GROUP,
-                tab: {tabGroupName: 'foo', tabItems: {to: 'some/path'}},
+                tab: {tabGroupName: 'foo', tabItems: fromJS({to: 'some/path'})},
               });
     });
     it('should return correct type on addTabItem', () => {
@@ -53,7 +91,7 @@ describe('state', () => {
           .toEqual(
               {
                 type: ADD_TAB_ITEM,
-                tab: {tabGroupName: 'foo', tabItem: {to: 'some/path'}},
+                tab: {tabGroupName: 'foo', tabItem: fromJS({to: 'some/path'})},
               });
     });
     it('should return correct type on changeActiveTab', () => {

@@ -1,17 +1,16 @@
 import React from 'react';
-import { fromJS } from 'immutable';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Paper from 'components/Paper';
 import AppBar from 'material-ui/AppBar';
-import {default as MdTabs, Tab as MdTab } from 'material-ui/Tabs';
+import { default as MdTabs, Tab as MdTab } from 'material-ui/Tabs';
 import {
-  addTabsGroup,
   addTabItem,
+  addTabsGroup,
+  changeActiveTab,
   makeSelectTabs,
   selectActiveTab,
-  changeActiveTab,
 } from './state';
 
 const Wrapper = styled.div`
@@ -112,8 +111,10 @@ export const withTabs = (tabGroupName, tabItems) => (Component) => {
   function mapDispatchToProps(dispatch) {
     return {
       dispatch,
-      addTabsGroup: (tabGroupName, tabItems) => dispatch(addTabsGroup(tabGroupName, fromJS(tabItems))),
-      addTabItem: (tabGroupName, tabItem) => dispatch(addTabItem(tabGroupName, fromJS(tabItem))),
+      addTabsGroup: (tabGroupName, tabItems) => dispatch(
+          addTabsGroup(tabGroupName, tabItems)),
+      addTabItem: (tabGroupName, tabItem) => dispatch(
+          addTabItem(tabGroupName, tabItem)),
       changeActiveTab: tabGroupName => name => dispatch(changeActiveTab(tabGroupName, name)),
     }
   }

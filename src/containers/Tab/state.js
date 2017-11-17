@@ -10,14 +10,14 @@ export const CHANGE_ACTIVE_TAB = 'pawnfield/Tab/CHANGE_ACTIVE_TAB';
 export function addTabsGroup(tabGroupName, tabItems) {
   return {
     type: ADD_TABS_GROUP,
-    tab: {tabGroupName, tabItems},
+    tab: {tabGroupName, tabItems: fromJS(tabItems)},
   };
 }
 
 export function addTabItem(tabGroupName, tabItem) {
   return {
     type: ADD_TAB_ITEM,
-    tab: {tabGroupName, tabItem},
+    tab: {tabGroupName, tabItem: fromJS(tabItem)},
   };
 }
 
