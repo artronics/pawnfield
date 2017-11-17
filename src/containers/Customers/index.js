@@ -4,7 +4,7 @@ import Typography from 'material-ui/Typography';
 import ipsum from 'lorem-ipsum';
 import { withTabs } from 'containers/Tab';
 
-const Home = () => {
+const Home = (props) => {
   return(
     <div>
       home
@@ -26,11 +26,10 @@ const New = () => {
 }
 
 export class Customers extends React.Component {
-
   render() {
     return (
       <Switch>
-        <Route exact path='/app/customers' component={Home} />
+        <Route exact path='/app/customers' component={Home} state={{kir: 'kos'}}/>
         <Route path='/app/customers/new' component={New} />
       </Switch>
     );
@@ -38,7 +37,7 @@ export class Customers extends React.Component {
 }
 
 const tabs = {
-  home: {to: '/app/customers', label: 'Customers'},
+  '/': {to: '/app/customers', label: 'Customers'},
   new: {to: '/app/customers/new', label: 'New Customer'}
 };
 

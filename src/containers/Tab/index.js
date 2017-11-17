@@ -55,10 +55,33 @@ const Tabbar = withRouter((props) => {
       );
 });
 
+const getTabNameFormUrl = (url, tabGroupName) => {
+  let r = ''
+  const ng = url.indexOf(tabGroupName);
+  r=url.substring(ng, url.length)
+  let indexOfSlash = r.indexOf('/')
+  if(indexOfSlash === -1) {
+    return '/'
+  }
+  r = r.substring(indexOfSlash+1, r.length)
+  if (r === '') {
+    return '/'
+  }
+  indexOfSlash = r.indexOf('/')
+  if(indexOfSlash === -1) {
+    return r
+  }
+  r = r.substring(0, indexOfSlash)
+  return r;
+};
 export const withTabs = (tabGroupName, tabItems) => (Component) => {
   class Tab extends React.PureComponent {
     componentWillMount() {
-      this.props.addTabsGroup(tabGroupName, tabItems);
+      const {addTabsGroup, history, match: {path}} = this.props;
+      addTabsGroup(tabGroupName, tabItems);
+      const tabName = getTabNameFormUrl(path, tabGroupName);
+      history.push(`/app/${tabGroupName}${tabName}`)
+      changeActiveTab(tabName);
     }
     render() {
       const {addTabItem, changeActiveTab, activeTab} = this.props;
@@ -94,5 +117,5 @@ export const withTabs = (tabGroupName, tabItems) => (Component) => {
       changeActiveTab: tabGroupName => name => dispatch(changeActiveTab(tabGroupName, name)),
     }
   }
-  return connect(mapStateToProps, mapDispatchToProps)(Tab);
+  return withRouter(connect(mapStateToProps, mapDispatchToProps)(Tab));
 };

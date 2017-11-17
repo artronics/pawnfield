@@ -23,7 +23,7 @@ export const Pawnfield = () => {
       <Layout>
         <Main>
           <Switch>
-            <Route path='/app/customers' component={Customers} />
+            <Route path='/app/customers' component={Customers}/>
             <Route path='/app/items' component={Items} />
           </Switch>
         </Main>
