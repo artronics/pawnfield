@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -13,7 +14,7 @@ import {
   selectActiveTab,
 } from './state';
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -36,41 +37,42 @@ const Main = styled(Paper)`
 const Tabbar = withRouter((props) => {
   const {history, tabs, changeActiveTab, activeTab} = props;
   return (
-        <TabbarWrapper value={activeTab}>
-          {tabs.map(t => {
-            return (
-              <MdTab
-                key={t.key}
-                value={t.key}
-                label={t.label}
-                onClick={() => {
-                  changeActiveTab(t.key);
-                  history.push(t.to);
-                }}
-              />
-            );}
-          )}
-        </TabbarWrapper>
-      );
+      <TabbarWrapper value={activeTab}>
+        {tabs.map(t => {
+              return (
+                  <MdTab
+                      key={t.key}
+                      value={t.key}
+                      label={t.label}
+                      onClick={() => {
+                        changeActiveTab(t.key);
+                        history.push(t.to);
+                      }}
+                  />
+              );
+            },
+        )}
+      </TabbarWrapper>
+  );
 });
 
 const getTabNameFormUrl = (url, tabGroupName) => {
-  let r = ''
+  let r = '';
   const ng = url.indexOf(tabGroupName);
-  r=url.substring(ng, url.length)
-  let indexOfSlash = r.indexOf('/')
-  if(indexOfSlash === -1) {
-    return '/'
+  r = url.substring(ng, url.length);
+  let indexOfSlash = r.indexOf('/');
+  if (indexOfSlash === -1) {
+    return '/';
   }
-  r = r.substring(indexOfSlash+1, r.length)
+  r = r.substring(indexOfSlash + 1, r.length);
   if (r === '') {
-    return '/'
+    return '/';
   }
-  indexOfSlash = r.indexOf('/')
-  if(indexOfSlash === -1) {
-    return r
+  indexOfSlash = r.indexOf('/');
+  if (indexOfSlash === -1) {
+    return r;
   }
-  r = r.substring(0, indexOfSlash)
+  r = r.substring(0, indexOfSlash);
   return r;
 };
 export const withTabs = (tabGroupName, tabItems) => (Component) => {
@@ -79,35 +81,48 @@ export const withTabs = (tabGroupName, tabItems) => (Component) => {
       const {addTabsGroup, history, match: {path}} = this.props;
       addTabsGroup(tabGroupName, tabItems);
       const tabName = getTabNameFormUrl(path, tabGroupName);
-      history.push(`/app/${tabGroupName}${tabName}`)
+      history.push(`/app/${tabGroupName}${tabName}`);
       changeActiveTab(tabName);
     }
+
     render() {
       const {addTabItem, changeActiveTab, activeTab} = this.props;
       return (
-        <Wrapper>
-          <AppBar position='static'>
-            <Tabbar
-              tabs={this.props.tabs}
-              changeActiveTab={changeActiveTab(tabGroupName)}
-              activeTab={activeTab}
-            />
-          </AppBar>
-          <Main elevation={1}>
-            <Scroll>
-              <Component addTabItem={addTabItem}/>
-            </Scroll>
-          </Main>
-        </Wrapper>
+          <Wrapper>
+            <AppBar position='static'>
+              <Tabbar
+                  tabs={this.props.tabs}
+                  changeActiveTab={changeActiveTab(tabGroupName)}
+                  activeTab={activeTab}
+              />
+            </AppBar>
+            <Main elevation={1}>
+              <Scroll>
+                <Component addTabItem={addTabItem}/>
+              </Scroll>
+            </Main>
+          </Wrapper>
       );
     }
+
+    static propTypes = {
+      tabs: PropTypes.array.isRequired,
+      activeTab: PropTypes.oneOfType(
+          [PropTypes.number, PropTypes.string]).isRequired,
+      dispatch: PropTypes.func.isRequired,
+      addTabsGroup: PropTypes.func.isRequired,
+      addTabItem: PropTypes.func.isRequired,
+      changeActiveTab: PropTypes.func.isRequired,
+    };
   }
+
   function mapStateToProps(state) {
     return {
       tabs: makeSelectTabs(tabGroupName)(state),
-      activeTab: selectActiveTab(tabGroupName)(state)
-    }
+      activeTab: selectActiveTab(tabGroupName)(state),
+    };
   }
+
   function mapDispatchToProps(dispatch) {
     return {
       dispatch,
@@ -115,8 +130,10 @@ export const withTabs = (tabGroupName, tabItems) => (Component) => {
           addTabsGroup(tabGroupName, tabItems)),
       addTabItem: (tabGroupName, tabItem) => dispatch(
           addTabItem(tabGroupName, tabItem)),
-      changeActiveTab: tabGroupName => name => dispatch(changeActiveTab(tabGroupName, name)),
-    }
+      changeActiveTab: tabGroupName => name => dispatch(
+          changeActiveTab(tabGroupName, name)),
+    };
   }
+
   return withRouter(connect(mapStateToProps, mapDispatchToProps)(Tab));
 };
