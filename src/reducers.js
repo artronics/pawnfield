@@ -4,6 +4,7 @@ import { routerReducer } from 'react-router-redux';
 import { reducer as appReducer } from 'containers/Pawnfield/state';
 import { reducer as loginReducer } from 'containers/Login/state';
 import { reducer as tabsReducer } from 'containers/Tab/state';
+import { reducer as dataSourceReducer } from 'containers/DataSource/state';
 
 /**
  * Creates the main reducer with the dynamically injected ones
@@ -14,6 +15,7 @@ export default function createReducer(injectedReducers) {
     app: appReducer,
     login: loginReducer,
     form: formReducer,
+    dataSource: dataSourceReducer,
     tabs: tabsReducer,
     ...injectedReducers,
   });

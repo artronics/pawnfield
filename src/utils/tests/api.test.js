@@ -1,9 +1,10 @@
 import sinon from 'sinon';
 import {
-  baseUrlProtocol,
-  baseUrl,
-  options,
   baseOptions,
+  baseUrl,
+  baseUrlProtocol,
+  get,
+  options,
   post,
 } from '../api';
 
@@ -13,13 +14,14 @@ describe('api', () => {
       expect(baseUrlProtocol('http')).toEqual('http://localhost:8080/api');
     });
     it('should return pawnfield if protocol is https', () => {
-      expect(baseUrlProtocol('https')).toEqual('https://api.pawnfield.co.uk/api');
+      expect(baseUrlProtocol('https'))
+          .toEqual('https://api.pawnfield.co.uk/api');
     });
   });
   describe('options', () => {
     beforeEach(() => {
       global.window.localStorage = {
-        getItem: () => String.raw`{"account":{"token":"token"}}`
+        getItem: () => String.raw`{"account":{"token":"token"}}`,
       };
     });
     it('should get GET options', () => {
@@ -50,7 +52,8 @@ describe('api', () => {
     });
     it('should add body if present and method is post', () => {
       expect(options('POST').hasOwnProperty('body')).toBe(false);
-      expect(options('GET', undefined, {foo: 'bar'}).hasOwnProperty('body')).toBe(false);
+      expect(options('GET', undefined, {foo: 'bar'}).hasOwnProperty('body'))
+          .toBe(false);
     });
     it('should add token if present', () => {
       expect(options('POST', 'token')).toEqual({
@@ -62,13 +65,14 @@ describe('api', () => {
         },
       });
       // eslint-disable-next-line no-prototype-builtins
-      expect(options('POST').headers.hasOwnProperty('authorization')).toBe(false);
+      expect(options('POST').headers.hasOwnProperty('authorization'))
+          .toBe(false);
     });
     describe('async', () => {
       let stub;
       beforeEach(() => {
         stub = sinon.stub(window, 'fetch');
-         window.fetch.returns(Promise.resolve(jsonOk({foo: 'bar'})));
+        window.fetch.returns(Promise.resolve(jsonOk({foo: 'bar'})));
       });
 
       afterEach(() => {
@@ -79,30 +83,37 @@ describe('api', () => {
         it('should call with url', () => {
           const url = '/foo_url';
           post(url, {});
-          sinon.assert.calledWith(stub, `${baseUrl + url}`)
+          sinon.assert.calledWith(stub, `${baseUrl + url}`);
+        });
+      });
+      describe('get', () => {
+        it('should call with url', () => {
+          const url = '/bar_url';
+          get(url);
+          sinon.assert.calledWith(stub, `${baseUrl + url}`);
         });
       });
     });
   });
 });
 
-function jsonOk (body) {
+function jsonOk(body) {
   const mockResponse = new window.Response(JSON.stringify(body), {
     status: 200,
     headers: {
-      'Content-type': 'application/json'
-    }
+      'Content-type': 'application/json',
+    },
   });
 
   return Promise.resolve(mockResponse);
 }
 
-function jsonError (status, body) {
+function jsonError(status, body) {
   const mockResponse = new window.Response(JSON.stringify(body), {
     status: status,
     headers: {
-      'Content-type': 'application/json'
-    }
+      'Content-type': 'application/json',
+    },
   });
 
   return Promise.reject(mockResponse);

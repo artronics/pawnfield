@@ -1,8 +1,9 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import Typography from 'material-ui/Typography';
 import ipsum from 'lorem-ipsum';
 import { withTabs } from 'containers/Tab';
+import DataSource from 'containers/DataSource';
 
 const Home = (props) => {
   return (
@@ -41,4 +42,5 @@ const tabs = {
   new: {to: '/app/customers/new', label: 'New Customer'}
 };
 
-export default withTabs('customers', tabs)(Customers);
+const wrappedCustomer = withRouter(DataSource('customers')(Customers));
+export default withTabs('customers', tabs)(wrappedCustomer);
