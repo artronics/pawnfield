@@ -5,16 +5,23 @@ import ipsum from 'lorem-ipsum';
 import { withTabs } from 'containers/Tab';
 import DataSource from 'containers/DataSource';
 
-const Home = (props) => {
-  return (
-    <div>
-      home
-      <Typography>
-        {ipsum({count: 50, units: 'paragraphs'})}
-      </Typography>
-    </div>
-  );
-};
+class Home extends React.Component {
+  componentWillMount() {
+    console.log(this.props);
+    this.props.getResource();
+  }
+
+  render() {
+    return (
+        <div>
+          home
+          <Typography>
+            {ipsum({count: 50, units: 'paragraphs'})}
+          </Typography>
+        </div>
+    );
+  }
+}
 const New = () => {
   return (
     <div>
@@ -28,9 +35,11 @@ const New = () => {
 
 export class Customers extends React.Component {
   render () {
+    console.log(this.props);
     return (
       <Switch>
-        <Route exact path='/app/customers' component={Home} state={{kir: 'kos'}}/>
+        <Route exact path='/app/customers'
+               render={() => <Home {...this.props}/>} state={{kir: 'kos'}}/>
         <Route path='/app/customers/new' component={New}/>
       </Switch>
     );

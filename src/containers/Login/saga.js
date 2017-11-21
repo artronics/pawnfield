@@ -10,7 +10,7 @@ export function* login(values) {
   const cred = {username: credentials.email, password: credentials.password};
   try {
     const account = yield call(post, '/auth/login', cred);
-    yield call(setAccount, JSON.stringify(account));
+    yield call(setAccount, account);
     yield put(accountSuccessful(account));
     yield put(push('/app'));
   } catch (err) {
