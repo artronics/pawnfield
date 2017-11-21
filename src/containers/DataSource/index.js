@@ -22,7 +22,7 @@ export function mapStateToProps(state) {
 }
 
 export const DataSource = (name) => (WrappedComponent) => {
-  class DataSourceHoc extends BaseDataSource {
+  return class DataSourceHoc extends BaseDataSource {
     render() {
       const {getResource} = this.props;
       return (<WrappedComponent
@@ -31,8 +31,8 @@ export const DataSource = (name) => (WrappedComponent) => {
       />);
     }
   }
-
-  return connect(mapStateToProps, mapDispatchToProps)(DataSourceHoc);
 };
 
-export default DataSource;
+export default name => WrappedComponent =>
+    connect(mapStateToProps, mapDispatchToProps)(
+        DataSource(name)(WrappedComponent));
