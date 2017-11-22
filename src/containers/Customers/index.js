@@ -4,10 +4,10 @@ import Typography from 'material-ui/Typography';
 import ipsum from 'lorem-ipsum';
 import { withTabs } from 'containers/Tab';
 import DataSource from 'containers/DataSource';
+import ResourceToolbar from 'components/ResourceToolbar';
 
 class Home extends React.Component {
   componentWillMount() {
-    console.log(this.props);
     this.props.getResource({pagination: {}});
   }
 
@@ -15,6 +15,7 @@ class Home extends React.Component {
     return (
         <div>
           home
+          <ResourceToolbar title='Recently Added Customers'/>
           <Typography>
             {ipsum({count: 50, units: 'paragraphs'})}
           </Typography>
