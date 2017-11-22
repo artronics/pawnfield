@@ -8,7 +8,7 @@ import DataSource from 'containers/DataSource';
 class Home extends React.Component {
   componentWillMount() {
     console.log(this.props);
-    this.props.getResource();
+    this.props.getResource({pagination: {}});
   }
 
   render() {
