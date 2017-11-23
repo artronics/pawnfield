@@ -1,27 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import MdPaper from 'material-ui/Paper';
-import { withStyles } from 'material-ui/styles';
-
-const styles = (theme) => ({
-  root: theme.mixins.gutters({
-    paddingBottom: 8,
-  }),
-});
 
 const Paper = (props) => {
-  const { classes } = props;
+  const Root = styled(MdPaper)`
 
+`;
   return (
-    <MdPaper className={classes.root} {...props}>
+      <Root {...props}>
       {props.children}
-    </MdPaper>
+      </Root>
   );
 };
 
 Paper.propTypes = {
-  classes: PropTypes.object.isRequired,
   children: PropTypes.node,
 };
 
-export default withStyles(styles)(Paper);
+export default Paper;

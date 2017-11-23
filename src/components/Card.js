@@ -6,7 +6,7 @@ const Card = (props) => {
   const {title, children} = props;
 
   return (
-    <MdCard>
+      <MdCard style={{margin: '4px'}}>
       {title && <CardHeader title={title}></CardHeader>}
       <CardContent>
         {children}

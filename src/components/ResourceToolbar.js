@@ -23,7 +23,7 @@ const ResourceToolbar = (props) => {
   const {title} = props;
   return (
       <div style={{width: '100%'}}>
-        <Toolbar>
+        <Toolbar style={{padding: 0}}>
           <Title title={title}/>
           <RefreshButton/>
           <EditButton/>

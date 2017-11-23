@@ -1,24 +1,30 @@
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import Typography from 'material-ui/Typography';
-import ipsum from 'lorem-ipsum';
 import { withTabs } from 'containers/Tab';
 import DataSource from 'containers/DataSource';
 import ResourceToolbar from 'components/ResourceToolbar';
+import Table from 'components/Table';
+import Card from 'components/Card';
+import { columns } from './customer';
 
 class Home extends React.Component {
   componentWillMount() {
     this.props.getResource({pagination: {}});
   }
 
+  data = [
+    {id: 12, firstName: 'john', lastName: 'doe', mobile: '123'},
+    {id: 43, firstName: 'Al', lastName: 'Tenner', mobile: '987'},
+  ];
+
   render() {
     return (
         <div>
-          home
-          <ResourceToolbar title='Recently Added Customers'/>
-          <Typography>
-            {ipsum({count: 50, units: 'paragraphs'})}
-          </Typography>
+          <Card>
+            <ResourceToolbar title='Recently Added Customers'/>
+            <Table data={this.data} columns={columns} selectedId={1}
+                   onRowSelect={(id) => console.log(id)}/>
+          </Card>
         </div>
     );
   }
@@ -27,9 +33,6 @@ const New = () => {
   return (
     <div>
       new customer
-      <Typography>
-        {ipsum({count: 50, units: 'paragraphs'})}
-      </Typography>
     </div>
   );
 };
