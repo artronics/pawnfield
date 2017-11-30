@@ -14,7 +14,7 @@ describe('api', () => {
       expect(baseUrlProtocol('http')).toEqual('http://localhost:8080/api');
     });
     it('should return pawnfield if protocol is https', () => {
-      expect(baseUrlProtocol('https'))
+      expect(baseUrlProtocol('https:'))
           .toEqual('https://api.pawnfield.co.uk/api');
     });
   });

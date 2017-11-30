@@ -1,6 +1,6 @@
 import request from 'utils/request';
 
-const baseUrlProtocol = (prot: string) => prot === 'https'
+const baseUrlProtocol = (prot: string) => prot === 'https:'
     ? 'https://api.pawnfield.co.uk/api'
     : 'http://localhost:8080/api';
 
